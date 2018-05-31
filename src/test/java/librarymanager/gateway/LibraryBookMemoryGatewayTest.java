@@ -31,7 +31,7 @@ public class LibraryBookMemoryGatewayTest {
     }
 
     @Test
-    public void retrieveCreatedBookTest(){
+    public void retrieveAllBooksTest(){
         String bookTitle = "Anne Frank Diary";
         LibraryBook book = new LibraryBook();
         book.setTitle(bookTitle);
@@ -46,5 +46,47 @@ public class LibraryBookMemoryGatewayTest {
         List<LibraryBook> persistedBooks = libraryBookMemoryGateway.getAllBooks();
 
         assertThat(persistedBooks, hasItems(book, book2));
+    }
+
+    @Test
+    public void retrieveBookByTitleTest(){
+        String bookTitle = "Anne Frank Diary";
+        LibraryBook book = new LibraryBook();
+        book.setTitle(bookTitle);
+
+        String bookTitle2 = "Harry Potter";
+        LibraryBook book2 = new LibraryBook();
+        book2.setTitle(bookTitle2);
+
+        String bookTitle3 = "50 Shades of Grey";
+        LibraryBook book3 = new LibraryBook();
+        book3.setTitle(bookTitle3);
+
+        libraryBookMemoryGateway.saveLibraryBook(book);
+        libraryBookMemoryGateway.saveLibraryBook(book2);
+        libraryBookMemoryGateway.saveLibraryBook(book3);
+
+        LibraryBook retrievedBook = libraryBookMemoryGateway.getBookByTitle("Harry Potter");
+
+        assertThat(retrievedBook, is(book2));
+        assertThat(retrievedBook.getTitle(), is("Harry Potter"));
+    }
+
+    @Test
+    public void updateExistingBookTest(){
+        String bookTitle = "Anne Frank Diary";
+        LibraryBook book = new LibraryBook();
+        book.setTitle(bookTitle);
+        book.setLent(false);
+
+        LibraryBook book2 = new LibraryBook();
+        book2.setTitle(bookTitle);
+        book2.setLent(true);
+
+        libraryBookMemoryGateway.saveLibraryBook(book);
+        libraryBookMemoryGateway.saveLibraryBook(book2);
+
+        assertThat(libraryBookMemoryGateway.getAllBooks().size(), is(1));
+        assertThat(libraryBookMemoryGateway.getBookByTitle(bookTitle).isLent(), is(true));
     }
 }

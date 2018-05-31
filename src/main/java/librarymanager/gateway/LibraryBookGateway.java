@@ -9,4 +9,6 @@ public interface LibraryBookGateway {
     LibraryBook saveLibraryBook(LibraryBook book);
 
     List<LibraryBook> getAllBooks();
+
+    LibraryBook getBookByTitle(String title);
 }
