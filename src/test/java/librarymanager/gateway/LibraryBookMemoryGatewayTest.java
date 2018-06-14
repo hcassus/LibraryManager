@@ -89,4 +89,25 @@ public class LibraryBookMemoryGatewayTest {
         assertThat(libraryBookMemoryGateway.getAllBooks().size(), is(1));
         assertThat(libraryBookMemoryGateway.getBookByTitle(bookTitle).isLent(), is(true));
     }
+
+    @Test
+    public void removeExistingBookTest(){
+        String bookTitle1 = "Anne Frank Diary";
+        String bookTitle2 = "The Karamazov Brothers";
+        LibraryBook book = new LibraryBook();
+        book.setTitle(bookTitle1);
+        book.setLent(false);
+
+        LibraryBook book2 = new LibraryBook();
+        book2.setTitle(bookTitle2);
+        book2.setLent(true);
+
+        libraryBookMemoryGateway.saveLibraryBook(book);
+        libraryBookMemoryGateway.saveLibraryBook(book2);
+
+        libraryBookMemoryGateway.deleteBook(book2);
+
+        assertThat(libraryBookMemoryGateway.getAllBooks().size(), is(1));
+        assertThat(libraryBookMemoryGateway.getAllBooks().get(0), is(book));
+    }
 }

@@ -4,11 +4,14 @@ import librarymanager.domain.LibraryBook;
 import librarymanager.gateway.LibraryBookGateway;
 
 public class RemoveLibraryBookUsecase {
-    public RemoveLibraryBookUsecase(LibraryBookGateway libraryBookGateway) {
 
+    private LibraryBookGateway libraryBookGateway;
+
+    public RemoveLibraryBookUsecase(LibraryBookGateway libraryBookGateway) {
+        this.libraryBookGateway = libraryBookGateway;
     }
 
     public void execute(LibraryBook book) {
-
+        libraryBookGateway.deleteBook(book);
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LibraryBookMemoryGateway implements LibraryBookGateway{
 
-    private List<LibraryBook> libraryBookList = new ArrayList<LibraryBook>();
+    private List<LibraryBook> libraryBookList = new ArrayList<>();
 
     public LibraryBook saveLibraryBook(LibraryBook newBook) {
         LibraryBook updatedBook;
@@ -34,5 +34,10 @@ public class LibraryBookMemoryGateway implements LibraryBookGateway{
 
     public LibraryBook getBookByTitle(String title) {
         return libraryBookList.stream().filter( book -> book.getTitle().equals(title)).findFirst().orElse(null);
+    }
+
+    @Override
+    public void deleteBook(LibraryBook book) {
+        libraryBookList.remove(book);
     }
 }

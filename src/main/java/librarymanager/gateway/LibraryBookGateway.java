@@ -11,4 +11,6 @@ public interface LibraryBookGateway {
     List<LibraryBook> getAllBooks();
 
     LibraryBook getBookByTitle(String title);
+
+    void deleteBook(LibraryBook book);
 }

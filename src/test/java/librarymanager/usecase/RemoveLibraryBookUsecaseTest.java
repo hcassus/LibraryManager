@@ -1,23 +1,26 @@
 package librarymanager.usecase;
 
 import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.LibraryBookGatewayFake;
+import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.List;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
+@RunWith(MockitoJUnitRunner.class)
 public class RemoveLibraryBookUsecaseTest {
 
     private RemoveLibraryBookUsecase removeLibraryBookUsecase;
-    private LibraryBookGatewayFake libraryBookGateway;
+
+    @Mock
+    private LibraryBookGateway libraryBookGateway;
 
     @Before
     public void setup(){
-        libraryBookGateway = new LibraryBookGatewayFake();
         removeLibraryBookUsecase = new RemoveLibraryBookUsecase(libraryBookGateway);
     }
 
@@ -26,12 +29,9 @@ public class RemoveLibraryBookUsecaseTest {
         String bookTitle = "1984";
         LibraryBook book = new LibraryBook();
         book.setTitle(bookTitle);
-        libraryBookGateway.saveLibraryBook(book);
 
         removeLibraryBookUsecase.execute(book);
 
-        List<LibraryBook> allBooks = libraryBookGateway.getAllBooks();
-
-        assertThat(allBooks.size(), is(0));
+        verify(libraryBookGateway, times(1)).deleteBook(book);
     }
 }

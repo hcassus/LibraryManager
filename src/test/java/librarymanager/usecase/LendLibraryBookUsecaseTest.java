@@ -1,26 +1,33 @@
 package librarymanager.usecase;
 
 import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.LibraryBookGatewayFake;
+import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class LendLibraryBookUsecaseTest {
 
-    private LibraryBookGatewayFake libraryBookGatewayFake;
+    @Mock
+    private LibraryBookGateway libraryBookGateway;
+
+    @Captor
+    private ArgumentCaptor<LibraryBook> bookCaptor;
+
     private LendBookUsecase lendBookUsecase;
 
     @Before
     public void setup(){
-        libraryBookGatewayFake = new LibraryBookGatewayFake();
-        lendBookUsecase = new LendBookUsecase(libraryBookGatewayFake);
-        libraryBookGatewayFake.setCreatedBooks(new ArrayList<>());
+        lendBookUsecase = new LendBookUsecase(libraryBookGateway);
     }
 
     @Test
@@ -29,14 +36,12 @@ public class LendLibraryBookUsecaseTest {
         LibraryBook book = new LibraryBook();
         book.setTitle(bookTitle);
         book.setLent(false);
-        List<LibraryBook> books = new ArrayList<>();
-        books.add(book);
-        libraryBookGatewayFake.setCreatedBooks(books);
+
+        when(libraryBookGateway.getBookByTitle(bookTitle)).thenReturn(book);
 
         lendBookUsecase.execute("1984");
 
-        assertThat(libraryBookGatewayFake.getCreatedBook(), is(book));
-        assertThat(libraryBookGatewayFake.getCreatedBook().isLent(), is(true));
-
+        verify(libraryBookGateway, times(1)).saveLibraryBook(bookCaptor.capture());
+        assertThat(bookCaptor.getValue().isLent(), is(true));
     }
 }

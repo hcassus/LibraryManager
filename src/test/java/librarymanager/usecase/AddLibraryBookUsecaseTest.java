@@ -1,21 +1,33 @@
 package librarymanager.usecase;
 
 import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.LibraryBookGatewayFake;
+import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AddLibraryBookUsecaseTest {
 
     private AddLibraryBookUsecase addLibraryBookUsecase;
-    private LibraryBookGatewayFake libraryBookGateway;
+
+    @Mock
+    private LibraryBookGateway libraryBookGateway;
+
+    @Captor
+    private ArgumentCaptor<LibraryBook> bookCaptor;
 
     @Before
     public void setup(){
-        libraryBookGateway = new LibraryBookGatewayFake();
         addLibraryBookUsecase = new AddLibraryBookUsecase(libraryBookGateway);
     }
 
@@ -27,8 +39,7 @@ public class AddLibraryBookUsecaseTest {
 
         addLibraryBookUsecase.execute(book);
 
-        LibraryBook createdBook = libraryBookGateway.getCreatedBook();
-
-        assertThat(createdBook.getTitle(), is(bookTitle));
+        verify(libraryBookGateway, times(1)).saveLibraryBook(bookCaptor.capture());
+        assertThat(bookCaptor.getValue(), is(book));
     }
 }

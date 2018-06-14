@@ -1,37 +1,31 @@
 package librarymanager.usecase;
 
-import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.LibraryBookGatewayFake;
+import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.List;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-import static org.hamcrest.CoreMatchers.hasItems;
-import static org.hamcrest.MatcherAssert.assertThat;
-
+@RunWith(MockitoJUnitRunner.class)
 public class GetAllLibraryBooksUsecaseTest {
 
     private GetAllLibraryBooksUsecase getAllLibraryBooksUsecase;
-    private LibraryBookGatewayFake libraryBookGatewayFake;
+
+    @Mock
+    private LibraryBookGateway libraryBookGatewayFake;
 
     @Before
     public void setup(){
-        libraryBookGatewayFake = new LibraryBookGatewayFake();
         getAllLibraryBooksUsecase = new GetAllLibraryBooksUsecase(libraryBookGatewayFake);
     }
 
     @Test
     public void getAllBooksTest(){
-        LibraryBook book1 = new LibraryBook();
-        book1.setTitle("Chronicles of Narnia");
-        LibraryBook book2 = new LibraryBook();
-        book2.setTitle("Animal Farm");
-        libraryBookGatewayFake.setCreatedBooks(Arrays.asList(book1,book2));
-
-        List<LibraryBook> books = getAllLibraryBooksUsecase.execute();
-
-        assertThat(books, hasItems(book1, book2));
+        getAllLibraryBooksUsecase.execute();
+        verify(libraryBookGatewayFake, times(1)).getAllBooks();
     }
 }
