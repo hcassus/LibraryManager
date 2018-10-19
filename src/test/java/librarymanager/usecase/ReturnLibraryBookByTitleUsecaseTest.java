@@ -2,7 +2,7 @@ package librarymanager.usecase;
 
 import librarymanager.domain.BookLease;
 import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.BookLeaseGateway;
+import librarymanager.gateway.BookLeaseMemoryGateway;
 import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class ReturnLibraryBookByTitleUsecaseTest {
     private LibraryBookGateway libraryBookGateway;
 
     @Mock
-    private BookLeaseGateway bookLeaseGateway;
+    private BookLeaseMemoryGateway bookLeaseGateway;
 
     @Captor
     private ArgumentCaptor<LibraryBook> bookCaptor;
