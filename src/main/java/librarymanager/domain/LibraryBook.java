@@ -7,6 +7,8 @@ public class LibraryBook {
 
     private String title;
 
+    private String isbn13;
+
     private boolean lent;
 
 }

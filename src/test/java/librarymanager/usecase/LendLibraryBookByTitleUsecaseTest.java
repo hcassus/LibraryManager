@@ -1,9 +1,7 @@
 package librarymanager.usecase;
 
-import librarymanager.domain.BookLease;
 import librarymanager.domain.LibraryBook;
 import librarymanager.domain.LibraryCustomer;
-import librarymanager.gateway.BookLeaseGateway;
 import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,32 +11,31 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.time.LocalDate;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LendLibraryBookUsecaseTest {
+public class LendLibraryBookByTitleUsecaseTest {
 
     @Mock
     private LibraryBookGateway libraryBookGateway;
 
     @Mock
-    private BookLeaseGateway bookLeaseGateway;
+    private LendBookUsecase lendBookUsecase;
 
     @Captor
     private ArgumentCaptor<LibraryBook> bookCaptor;
 
     @Captor
-    private ArgumentCaptor<BookLease> bookLeaseCaptor;
+    private ArgumentCaptor<LibraryCustomer> customerCaptor;
 
-    private LendBookUsecase lendBookUsecase;
+    private LendBookByTitleUsecase lendBookByTitleUsecase;
 
     @Before
     public void setup(){
-        lendBookUsecase = new LendBookUsecase(libraryBookGateway, bookLeaseGateway);
+
+        lendBookByTitleUsecase = new LendBookByTitleUsecase(libraryBookGateway, lendBookUsecase);
     }
 
     @Test
@@ -51,17 +48,13 @@ public class LendLibraryBookUsecaseTest {
         LibraryCustomer customer = new LibraryCustomer();
         customer.setName("Customer1");
 
-        lendBookUsecase.execute(book, customer);
+        when(libraryBookGateway.getBookByTitle(bookTitle)).thenReturn(book);
 
-        verify(libraryBookGateway, times(1)).saveLibraryBook(bookCaptor.capture());
-        verify(bookLeaseGateway, times(1)).saveBookLease(bookLeaseCaptor.capture());
+        lendBookByTitleUsecase.execute(bookTitle, customer);
 
-        assertThat(bookCaptor.getValue().isLent(), is(true));
+        verify(lendBookUsecase, times(1)).execute(bookCaptor.capture(), customerCaptor.capture());
 
-        BookLease bookLease = bookLeaseCaptor.getValue();
-        assertThat(bookLease.getBook(), is(book));
-        assertThat(bookLease.getLibraryCustomer(), is(customer));
-        assertThat(bookLease.getLeaseDate(), is(LocalDate.now()));
-        assertThat(bookLease.getDueDate(), is(LocalDate.now().plusDays(14)));
+        assertThat(bookCaptor.getValue(), is(book));
+        assertThat(customerCaptor.getValue(), is(customer));
     }
 }

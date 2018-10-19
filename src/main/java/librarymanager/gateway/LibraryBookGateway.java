@@ -13,4 +13,6 @@ public interface LibraryBookGateway {
     LibraryBook getBookByTitle(String title);
 
     void deleteBook(LibraryBook book);
+
+    LibraryBook getBookByIsbn(String isbn13);
 }

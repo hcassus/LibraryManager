@@ -11,7 +11,7 @@ public class LibraryBookMemoryGateway implements LibraryBookGateway{
 
     public LibraryBook saveLibraryBook(LibraryBook newBook) {
         LibraryBook updatedBook;
-        LibraryBook existingBook = getBookByTitle(newBook.getTitle());
+        LibraryBook existingBook = getExistingBook(newBook);
 
         if(existingBook != null){
             updatedBook = updateBook(existingBook, newBook);
@@ -20,6 +20,22 @@ public class LibraryBookMemoryGateway implements LibraryBookGateway{
             updatedBook = newBook;
         }
         return updatedBook;
+    }
+
+    private LibraryBook getExistingBook(LibraryBook newBook) {
+        LibraryBook isbnBook = null;
+        LibraryBook titleBook = null;
+
+        String isbn13 = newBook.getIsbn13();
+        String title = newBook.getTitle();
+
+        if(isbn13 != null)
+            isbnBook = getBookByIsbn(isbn13);
+
+        if(title != null)
+            titleBook = getBookByTitle(title);
+
+        return isbnBook != null ? isbnBook : titleBook;
     }
 
     private LibraryBook updateBook(LibraryBook existingBook, LibraryBook newBook) {
@@ -39,5 +55,10 @@ public class LibraryBookMemoryGateway implements LibraryBookGateway{
     @Override
     public void deleteBook(LibraryBook book) {
         libraryBookList.remove(book);
+    }
+
+    @Override
+    public LibraryBook getBookByIsbn(String isbn13) {
+        return libraryBookList.stream().filter( book -> book.getIsbn13().equals(isbn13)).findFirst().orElse(null);
     }
 }

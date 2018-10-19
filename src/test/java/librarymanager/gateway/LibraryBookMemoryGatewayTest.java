@@ -73,6 +73,30 @@ public class LibraryBookMemoryGatewayTest {
     }
 
     @Test
+    public void retrieveBookByIsbnTest(){
+        String bookIsbn13 = "9870123456789";
+        LibraryBook book = new LibraryBook();
+        book.setIsbn13(bookIsbn13);
+
+        String desiredIsbn = "9870123456456";
+        LibraryBook book2 = new LibraryBook();
+        book2.setIsbn13(desiredIsbn);
+
+        String bookIsbn13_3 = "9870123456123";
+        LibraryBook book3 = new LibraryBook();
+        book3.setIsbn13(bookIsbn13_3);
+
+        libraryBookMemoryGateway.saveLibraryBook(book);
+        libraryBookMemoryGateway.saveLibraryBook(book2);
+        libraryBookMemoryGateway.saveLibraryBook(book3);
+
+        LibraryBook retrievedBook = libraryBookMemoryGateway.getBookByIsbn(desiredIsbn);
+
+        assertThat(retrievedBook, is(book2));
+        assertThat(retrievedBook.getIsbn13(), is(desiredIsbn));
+    }
+
+    @Test
     public void updateExistingBookTest(){
         String bookTitle = "Anne Frank Diary";
         LibraryBook book = new LibraryBook();
