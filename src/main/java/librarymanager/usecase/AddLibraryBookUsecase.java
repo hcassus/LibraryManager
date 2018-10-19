@@ -2,14 +2,12 @@ package librarymanager.usecase;
 
 import librarymanager.domain.LibraryBook;
 import librarymanager.gateway.LibraryBookGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class AddLibraryBookUsecase {
 
-    private LibraryBookGateway libraryBookGateway;
-
-    public AddLibraryBookUsecase(LibraryBookGateway libraryBookGateway){
-        this.libraryBookGateway = libraryBookGateway;
-    }
+    private final LibraryBookGateway libraryBookGateway;
 
     public void execute(LibraryBook book) {
         libraryBookGateway.saveLibraryBook(book);

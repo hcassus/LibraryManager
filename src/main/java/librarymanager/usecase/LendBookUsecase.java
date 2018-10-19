@@ -2,14 +2,12 @@ package librarymanager.usecase;
 
 import librarymanager.domain.LibraryBook;
 import librarymanager.gateway.LibraryBookGateway;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class LendBookUsecase {
 
-    private LibraryBookGateway libraryBookGateway;
-
-    public LendBookUsecase(LibraryBookGateway libraryBookGateway){
-        this.libraryBookGateway = libraryBookGateway;
-    }
+    private final LibraryBookGateway libraryBookGateway;
 
     public void execute(String title) {
         LibraryBook book = libraryBookGateway.getBookByTitle(title);
