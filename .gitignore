@@ -1,0 +1,23 @@
+### Output Directories ###
+out/
+bin/
+target/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Maven ###
+*.releaseBackup
+release.properties
+!.mvn/wrapper/maven-wrapper.jar
+
+### Others ###
+logs/
+*.log
+*.bak
+*.orig
+.gradle
+coverage-error.log
