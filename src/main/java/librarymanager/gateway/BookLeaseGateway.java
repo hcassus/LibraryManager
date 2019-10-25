@@ -6,5 +6,7 @@ import librarymanager.domain.LibraryCustomer;
 public interface BookLeaseGateway {
     void saveBookLease(BookLease lease);
 
-    BookLease getLeaseByIsbn(String bookIsbn13, LibraryCustomer customer);
+    BookLease getLeaseByIsbnAndCustomer(String bookIsbn13, LibraryCustomer customer);
+
+    BookLease getLeaseByTitleAndCustomer(String bookTitle, LibraryCustomer customer);
 }

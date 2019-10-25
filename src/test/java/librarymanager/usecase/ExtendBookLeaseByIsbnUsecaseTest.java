@@ -51,11 +51,11 @@ public class ExtendBookLeaseByIsbnUsecaseTest {
         LibraryCustomer customer = new LibraryCustomer();
         customer.setName("Customer1");
 
-        when(bookLeaseGateway.getLeaseByIsbn(bookIsbn13, customer)).thenReturn(bookLease);
+        when(bookLeaseGateway.getLeaseByIsbnAndCustomer(bookIsbn13, customer)).thenReturn(bookLease);
 
         extendBookLeaseUsecase.execute(bookIsbn13, customer);
 
-        verify(bookLeaseGateway, times(1)).getLeaseByIsbn(bookIsbn13, customer);
+        verify(bookLeaseGateway, times(1)).getLeaseByIsbnAndCustomer(bookIsbn13, customer);
         verify(bookLeaseGateway, times(1)).saveBookLease(bookLeaseCaptor.capture());
 
         BookLease lease = bookLeaseCaptor.getValue();

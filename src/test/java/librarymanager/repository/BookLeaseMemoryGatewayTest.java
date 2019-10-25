@@ -1,4 +1,4 @@
-package librarymanager.gateway;
+package librarymanager.repository;
 
 import librarymanager.domain.BookLease;
 import librarymanager.domain.LibraryBook;
@@ -35,7 +35,7 @@ public class BookLeaseMemoryGatewayTest {
 
         bookLeaseMemoryGateway.saveBookLease(lease);
 
-        assertThat(bookLeaseMemoryGateway.getLeaseByIsbn(isbn, customer), is(lease));
+        assertThat(bookLeaseMemoryGateway.getLeaseByIsbnAndCustomer(isbn, customer), is(lease));
     }
 
 

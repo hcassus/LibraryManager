@@ -26,7 +26,7 @@ public class LendBookUsecase {
         bookLease.setDueDate(now.plusDays(14));
         bookLease.setLibraryCustomer(customer);
 
-        libraryBookGateway.saveLibraryBook(book);
+        libraryBookGateway.saveOrUpdateBook(book);
         bookLeaseGateway.saveBookLease(bookLease);
     }
 }

@@ -39,7 +39,7 @@ public class AddLibraryBookUsecaseTest {
 
         addLibraryBookUsecase.execute(book);
 
-        verify(libraryBookGateway, times(1)).saveLibraryBook(bookCaptor.capture());
+        verify(libraryBookGateway, times(1)).saveBook(bookCaptor.capture());
         assertThat(bookCaptor.getValue(), is(book));
     }
 }

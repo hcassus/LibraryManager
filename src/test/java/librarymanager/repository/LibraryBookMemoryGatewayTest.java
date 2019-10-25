@@ -1,4 +1,4 @@
-package librarymanager.gateway;
+package librarymanager.repository;
 
 import librarymanager.domain.LibraryBook;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class LibraryBookMemoryGatewayTest {
         LibraryBook book = new LibraryBook();
         book.setTitle(bookTitle);
 
-        LibraryBook persistedBook = libraryBookMemoryGateway.saveLibraryBook(book);
+        LibraryBook persistedBook = libraryBookMemoryGateway.saveOrUpdateBook(book);
 
         assertThat(persistedBook.getTitle(), is(bookTitle));
     }
@@ -40,8 +40,8 @@ public class LibraryBookMemoryGatewayTest {
         LibraryBook book2 = new LibraryBook();
         book2.setTitle(bookTitle2);
 
-        libraryBookMemoryGateway.saveLibraryBook(book);
-        libraryBookMemoryGateway.saveLibraryBook(book2);
+        libraryBookMemoryGateway.saveOrUpdateBook(book);
+        libraryBookMemoryGateway.saveOrUpdateBook(book2);
 
         List<LibraryBook> persistedBooks = libraryBookMemoryGateway.getAllBooks();
 
@@ -62,9 +62,9 @@ public class LibraryBookMemoryGatewayTest {
         LibraryBook book3 = new LibraryBook();
         book3.setTitle(bookTitle3);
 
-        libraryBookMemoryGateway.saveLibraryBook(book);
-        libraryBookMemoryGateway.saveLibraryBook(book2);
-        libraryBookMemoryGateway.saveLibraryBook(book3);
+        libraryBookMemoryGateway.saveOrUpdateBook(book);
+        libraryBookMemoryGateway.saveOrUpdateBook(book2);
+        libraryBookMemoryGateway.saveOrUpdateBook(book3);
 
         LibraryBook retrievedBook = libraryBookMemoryGateway.getBookByTitle("Harry Potter");
 
@@ -86,9 +86,9 @@ public class LibraryBookMemoryGatewayTest {
         LibraryBook book3 = new LibraryBook();
         book3.setIsbn13(bookIsbn13_3);
 
-        libraryBookMemoryGateway.saveLibraryBook(book);
-        libraryBookMemoryGateway.saveLibraryBook(book2);
-        libraryBookMemoryGateway.saveLibraryBook(book3);
+        libraryBookMemoryGateway.saveOrUpdateBook(book);
+        libraryBookMemoryGateway.saveOrUpdateBook(book2);
+        libraryBookMemoryGateway.saveOrUpdateBook(book3);
 
         LibraryBook retrievedBook = libraryBookMemoryGateway.getBookByIsbn(desiredIsbn);
 
@@ -107,8 +107,8 @@ public class LibraryBookMemoryGatewayTest {
         book2.setTitle(bookTitle);
         book2.setLent(true);
 
-        libraryBookMemoryGateway.saveLibraryBook(book);
-        libraryBookMemoryGateway.saveLibraryBook(book2);
+        libraryBookMemoryGateway.saveOrUpdateBook(book);
+        libraryBookMemoryGateway.saveOrUpdateBook(book2);
 
         assertThat(libraryBookMemoryGateway.getAllBooks().size(), is(1));
         assertThat(libraryBookMemoryGateway.getBookByTitle(bookTitle).isLent(), is(true));
@@ -126,8 +126,8 @@ public class LibraryBookMemoryGatewayTest {
         book2.setTitle(bookTitle2);
         book2.setLent(true);
 
-        libraryBookMemoryGateway.saveLibraryBook(book);
-        libraryBookMemoryGateway.saveLibraryBook(book2);
+        libraryBookMemoryGateway.saveOrUpdateBook(book);
+        libraryBookMemoryGateway.saveOrUpdateBook(book2);
 
         libraryBookMemoryGateway.deleteBook(book2);
 

@@ -9,7 +9,7 @@ public class AddLibraryBookUsecase {
 
     private final LibraryBookGateway libraryBookGateway;
 
-    public void execute(LibraryBook book) {
-        libraryBookGateway.saveLibraryBook(book);
+    public LibraryBook execute(LibraryBook book) {
+        return libraryBookGateway.saveBook(book);
     }
 }

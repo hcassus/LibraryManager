@@ -2,7 +2,8 @@ package librarymanager.usecase;
 
 import librarymanager.domain.BookLease;
 import librarymanager.domain.LibraryBook;
-import librarymanager.gateway.BookLeaseMemoryGateway;
+import librarymanager.domain.LibraryCustomer;
+import librarymanager.repository.BookLeaseMemoryGateway;
 import librarymanager.gateway.LibraryBookGateway;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,11 +48,19 @@ public class ReturnLibraryBookByTitleUsecaseTest {
         book.setTitle(bookTitle);
         book.setLent(true);
 
+        LibraryCustomer customer = new LibraryCustomer();
+        customer.setName("Sorin");
+
+        BookLease lease = new BookLease();
+        lease.setBook(book);
+        lease.setLibraryCustomer(customer);
+
         when(libraryBookGateway.getBookByTitle(bookTitle)).thenReturn(book);
+        when(bookLeaseGateway.getLeaseByTitleAndCustomer(bookTitle, customer)).thenReturn(lease);
 
-        returnBookByTitleUsecase.execute("1984");
+        returnBookByTitleUsecase.execute("1984", customer);
 
-        verify(libraryBookGateway, times(1)).saveLibraryBook(bookCaptor.capture());
+        verify(libraryBookGateway, times(1)).saveOrUpdateBook(bookCaptor.capture());
         verify(bookLeaseGateway, times(1)).saveBookLease(bookLeaseCaptor.capture());
 
         assertThat(bookCaptor.getValue().isLent(), is(false));

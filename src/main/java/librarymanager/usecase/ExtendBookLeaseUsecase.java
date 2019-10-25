@@ -13,7 +13,7 @@ public class ExtendBookLeaseUsecase {
     private final BookLeaseGateway  bookLeaseGateway;
 
     public void execute(String bookIsbn13, LibraryCustomer customer) {
-        BookLease lease = bookLeaseGateway.getLeaseByIsbn(bookIsbn13, customer);
+        BookLease lease = bookLeaseGateway.getLeaseByIsbnAndCustomer(bookIsbn13, customer);
         lease.setDueDate(LocalDate.now().plusDays(14));
         bookLeaseGateway.saveBookLease(lease);
     }
